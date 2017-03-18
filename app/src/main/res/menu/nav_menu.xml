@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav4zai_nan_fulishe" android:icon="@drawable/zai_nan_fu_li_she" android:checked="true"
+            android:title="宅男福利社"/>
+        <item android:id="@+id/nav4zai_nan_cat" android:icon="@drawable/zai_nan_mao"
+            android:title="宅男猫"/>
+        <item android:id="@+id/nav4fan_hao" android:icon="@drawable/fan_hao"
+            android:title="番号库"/>
+        <item android:id="@+id/nav4beat_girls" android:icon="@drawable/beat_girls"
+            android:title="氢美女"/>
+    </group>
+    <item android:title="其他功能">
+        <menu>
+            <item android:id="@+id/nav4author" android:icon="@drawable/author"
+                android:title="作者"/>
+            <item android:title="退出" android:id="@+id/nav4exit"
+                android:icon="@drawable/exit"/>
+        </menu>
+    </item>
+</menu>
