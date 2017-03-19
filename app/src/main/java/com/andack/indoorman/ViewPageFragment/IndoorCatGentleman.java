@@ -19,7 +19,7 @@ public class IndoorCatGentleman extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view=inflater.inflate()
+//        View view=inlater.inflate()
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
