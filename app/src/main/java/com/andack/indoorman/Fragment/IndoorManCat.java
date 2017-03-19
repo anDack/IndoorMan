@@ -4,12 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.andack.indoorman.R;
+import com.andack.indoorman.ViewPageFragment.IndoorCatAver;
+import com.andack.indoorman.ViewPageFragment.IndoorCatBoring;
+import com.andack.indoorman.ViewPageFragment.IndoorCatGentleman;
+import com.andack.indoorman.ViewPageFragment.IndoorCatGif;
+import com.andack.indoorman.ViewPageFragment.IndoorCatGodGirl;
+import com.andack.indoorman.ViewPageFragment.IndoorCatPicture;
+import com.andack.indoorman.ViewPageFragment.IndoorCatWelfare;
 
 import java.util.ArrayList;
 
@@ -38,10 +46,29 @@ public class IndoorManCat extends Fragment {
     private void initView(View view) {
         mTabLayout= (TabLayout) view.findViewById(R.id.tablayout_indoormancat);
         mViewPager= (ViewPager) view.findViewById(R.id.viewpager_indoormancat);
+        mViewPager.setOffscreenPageLimit(fragments.size());
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return titles.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+        });
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void initData() {
         titles=new ArrayList<>();
+        fragments=new ArrayList<>();
         titles.add("绅士学院");     //gentleman
         titles.add("日本女忧");     //AVer
         titles.add("宅男福利");     //welfare
@@ -49,6 +76,13 @@ public class IndoorManCat extends Fragment {
         titles.add("宅男图库");     //picture
         titles.add("GIF福利");      //GIF
         titles.add("不许无聊");     //Boring
+        fragments.add(new IndoorCatGentleman());
+        fragments.add(new IndoorCatAver());
+        fragments.add(new IndoorCatWelfare());
+        fragments.add(new IndoorCatGodGirl());
+        fragments.add(new IndoorCatPicture());
+        fragments.add(new IndoorCatGif());
+        fragments.add(new IndoorCatBoring());
     }
 
 

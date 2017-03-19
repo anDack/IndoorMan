@@ -14,14 +14,14 @@ import com.andack.indoorman.R;
  * 项目作者：anDack
  * 项目时间：2017/3/19
  * 邮箱：    1160083806@qq.com
- * 描述：    绅士学院的fragment
+ * 描述：    TODO
  */
 
-public class IndoorCatGentleman extends Fragment {
+public class IndoorCatAver extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.cat_gentleman_fragment,container,false);
+        View view=inflater.inflate(R.layout.cat_aver_fragment,container,false);
         return view;
     }
 }

@@ -17,11 +17,11 @@ import com.andack.indoorman.R;
  * 描述：    绅士学院的fragment
  */
 
-public class IndoorCatGentleman extends Fragment {
+public class IndoorCatBoring extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.cat_gentleman_fragment,container,false);
+        View view=inflater.inflate(R.layout.cat_boring_fragment,container,false);
         return view;
     }
 }

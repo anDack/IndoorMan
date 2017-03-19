@@ -12,11 +12,14 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.andack.indoorman.Fragment.IndoorManCat;
 import com.andack.indoorman.Fragment.ZaiNanFuLiShe;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private Toolbar toolbar;
     private ZaiNanFuLiShe zaiNanFuLiSheFragment;
     @Override
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout= (DrawerLayout) findViewById(R.id.drawerlayout);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
-        FragmentManager fragmentManager=this.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentManager=this.getSupportFragmentManager();
+        fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_main,zaiNanFuLiSheFragment);
         fragmentTransaction.commit();
 
@@ -56,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav4zai_nan_fulishe:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+                openIndoorManFragment();
                 break;
             case R.id.nav4zai_nan_cat:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+                openIndoorCatFragment();
                 break;
             case R.id.nav4beat_girls:
                 drawerLayout.closeDrawer(Gravity.LEFT);
@@ -74,5 +79,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return true;
+    }
+
+    private void openIndoorManFragment() {
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main,zaiNanFuLiSheFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void openIndoorCatFragment() {
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main,new IndoorManCat());
+        fragmentTransaction.commit();
     }
 }

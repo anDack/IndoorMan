@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * 项目作者：anDack
  * 项目时间：2017/3/18
  * 邮箱：    1160083806@qq.com
- * 描述：    TODO
+ * 描述：    宅男福利社的Fragment
  */
 
 public class ZaiNanFuLiShe extends Fragment {
@@ -53,7 +53,8 @@ public class ZaiNanFuLiShe extends Fragment {
         mViewPager= (ViewPager) view.findViewById(R.id.viewpager_zainanfuli);
         //ViewPager预加载
         mViewPager.setOffscreenPageLimit(fragments.size());
-        mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
+        //如果是多层嵌套Fragment，就必须使用getChildFragmentManager()方法去获得fragmentManager对象否则只能运行以此
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return fragments.get(position);
