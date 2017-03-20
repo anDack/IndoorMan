@@ -31,7 +31,7 @@ public class PicassoUtils {
                     .resize(width, height)
                     .error(R.drawable.error)
                     .centerCrop()
-                    .placeholder(R.drawable.loading)
+                    .placeholder(R.drawable.ic_loading)
                     .into(imageView);
         }
 

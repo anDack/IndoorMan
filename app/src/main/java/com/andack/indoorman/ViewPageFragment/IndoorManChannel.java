@@ -47,6 +47,7 @@ public class IndoorManChannel extends Fragment {
                     listView.setVisibility(View.VISIBLE);
                     adapter=new IndoorManChannelAdapter(getContext(),entities);
                     listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                     break;
             }
         }
