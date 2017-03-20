@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.andack.indoorman.R;
 import com.andack.indoorman.Utils.ContentClass;
+import com.andack.indoorman.adapter.IndoorManChannelAdapter;
 import com.andack.indoorman.entity.ZaiNanFuLiEntity;
 
 import org.jsoup.Jsoup;
@@ -35,6 +36,7 @@ public class IndoorManChannel extends Fragment {
     private ListView listView;
     private ProgressBar progressBar;
     private ArrayList<ZaiNanFuLiEntity> entities;
+    private IndoorManChannelAdapter adapter;
     private ZaiNanFuLiEntity zaiNanFuLiEntity;
     private Handler mHandler=new Handler(){
         @Override
@@ -43,6 +45,8 @@ public class IndoorManChannel extends Fragment {
                 case ContentClass.HANDLER_INDOORMAN_CHANNEL:
                     progressBar.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
+                    adapter=new IndoorManChannelAdapter(getContext(),entities);
+                    listView.setAdapter(adapter);
                     break;
             }
         }
