@@ -11,4 +11,6 @@ package com.andack.indoorman.Utils;
 public class ContentClass {
     public static final int SPLASH_HANDLER=1001;
     public static final int SPLASH_TIME=2000;
+    public static final String INDOOR_CHANNEL_URL="http://www.zhainanfulishe.net/znpd";
+    public static final int HANDLER_INDOORMAN_CHANNEL=1001;
 }
