@@ -24,13 +24,13 @@ import java.util.ArrayList;
 public class ContentThread extends Thread {
     private Handler mHandler;
     private String Url;
-    private ArrayList<ZaiNanFuLiEntity> entities;
     private ZaiNanFuLiEntity zaiNanFuLiEntity;
+    private ArrayList<ZaiNanFuLiEntity> entities;
     private OnJsoupPraseListener listener;
-    public ContentThread(String Url,ArrayList<ZaiNanFuLiEntity> entities,OnJsoupPraseListener listener) {
-        this.entities=entities;
+    public ContentThread(String Url,OnJsoupPraseListener listener) {
         this.listener=listener;
         this.Url=Url;
+        this.entities=new ArrayList<>();
         this.mHandler=new Handler(Looper.getMainLooper());
     }
 
@@ -47,6 +47,7 @@ public class ContentThread extends Thread {
                 String time = element.select("span.postlist-meta-time").text();
                 String browse = element.select("div.meta").select("span.postlist-meta-views").text();
                 String shortContent = element.select("p").text();
+
                 if (!title.equals("") && !ImageUrl.equals("")) {
                     zaiNanFuLiEntity = new ZaiNanFuLiEntity();
                     zaiNanFuLiEntity.setTitle(title);
@@ -57,14 +58,16 @@ public class ContentThread extends Thread {
                     zaiNanFuLiEntity.setShortContent(shortContent);
                     entities.add(zaiNanFuLiEntity);
                 }
+
 //                mHandler.sendEmptyMessage(ContentClass.HANDLER_INDOORMAN_CHANNEL);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onSuccess(entities);
-                    }
-                });
+
             }
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onSuccess(entities);
+                }
+            });
         } catch (IOException e) {
             listener.onFailure(e);
         }

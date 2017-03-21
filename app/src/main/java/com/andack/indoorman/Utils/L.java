@@ -14,7 +14,7 @@ public class L {
     //开关
     public static boolean DEBUG=true;
     //TAG
-    public static final String TAG="smartbutler";
+    public static final String TAG="Old driver";
     //五个等级DIWEF
     public static void d(String text){
         if (DEBUG)

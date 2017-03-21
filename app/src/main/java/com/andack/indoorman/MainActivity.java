@@ -27,6 +27,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     private void initView() {
