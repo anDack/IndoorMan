@@ -63,4 +63,18 @@ public class ZaiNanFuLiEntity {
     public void setImageUrl(String imageUrl) {
         ImageUrl = imageUrl;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ZaiNanFuLiEntity) {
+            ZaiNanFuLiEntity temp= (ZaiNanFuLiEntity) obj;
+            if (!this.getTitle().equals(temp.getTitle()) || !this.Time.equals(temp.getTime())) {
+                return false;
+            }else {
+                return true;
+            }
+        }else {
+            return false;
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class PicassoUtils {
             Picasso.with(context)
                     .load(url)
                     .resize(width, height)
-                    .error(R.drawable.error)
+                    .error(R.drawable.ic_error_black_24dp)
                     .centerCrop()
                     .placeholder(R.drawable.ic_loading)
                     .into(imageView);

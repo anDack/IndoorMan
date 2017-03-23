@@ -31,6 +31,7 @@ public class ContentThread extends Thread {
         this.listener=listener;
         this.Url=Url;
         this.entities=new ArrayList<>();
+//        Looper.prepare();
         this.mHandler=new Handler(Looper.getMainLooper());
     }
 
@@ -58,10 +59,8 @@ public class ContentThread extends Thread {
                     zaiNanFuLiEntity.setShortContent(shortContent);
                     entities.add(zaiNanFuLiEntity);
                 }
-
-//                mHandler.sendEmptyMessage(ContentClass.HANDLER_INDOORMAN_CHANNEL);
-
             }
+
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {

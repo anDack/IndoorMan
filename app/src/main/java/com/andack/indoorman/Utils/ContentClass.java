@@ -14,7 +14,25 @@ public class ContentClass {
     public static final String INDOOR_BASE_URL="http://www.zhainanfulishe.net";
     public static final String INDOOR_CHANNEL_URL=INDOOR_BASE_URL+"/znpd";
     public static final String INDOOR_AVER_URL=INDOOR_BASE_URL+"/nvshen";
+    public static final String INDOOR_ACG_URL=INDOOR_BASE_URL+"/acgzh";
+    public static final String INDOOR_MOVIE_URL=INDOOR_BASE_URL+"/film";
+    public static final String INDOOR_NEWS_URL=INDOOR_BASE_URL+"/zonghe";
+    public static final String INDOOR_SKILL_URL=INDOOR_BASE_URL+"/jishuzhai";
+    public static final String INDOOR_WIKI_URL=INDOOR_BASE_URL+"/baike";
+    public static final String CAT_BASE_URL="http://www.zhainanmao.com/";
+    public static final String CAT_GENTLEMAN_URL=CAT_BASE_URL+"shenshi";
+    public static final String CAT_AVER_URL=CAT_BASE_URL+"nvyou";
+    public static final String CAT_WELARE_URL=CAT_BASE_URL+"fuli";
+    public static final String CAT_GODGirLS_URL=CAT_BASE_URL+"nvshen";
+    public static final String CAT_PICTURE_URL=CAT_BASE_URL+"tuku";
+    public static final String CAT_GIF_URL=CAT_BASE_URL+"gif";
+    public static final String CAT_BORING_URL=CAT_BASE_URL+"wuliao";
+    public static final String[] IndoorManUrls=new String[]{
+        INDOOR_CHANNEL_URL,INDOOR_AVER_URL,INDOOR_ACG_URL,INDOOR_MOVIE_URL,
+            INDOOR_NEWS_URL,INDOOR_SKILL_URL,INDOOR_WIKI_URL
+    };
+
     public static final String CACHE_NAME="IndoorMan";
     public static final int PAGE_NUM=10;
-//    public static final int HANDLER_INDOORMAN_CHANNEL=1001;
+    public static final int HANDLER_INDOORMAN_CHANNEL=1001;
 }

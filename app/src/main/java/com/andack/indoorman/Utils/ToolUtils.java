@@ -37,7 +37,7 @@ public class ToolUtils {
 //        return new String(year+month+day+hour+minute+se+"");
     }
     public static void setArrayListToACache(ArrayList<ZaiNanFuLiEntity> arrayList
-            , ACache aCache){
+            , ACache aCache,String TAG){
         for (int i = 0; i < arrayList.size(); i++) {
             String Url=arrayList.get(i).getUrl();
             String Title=arrayList.get(i).getTitle();
@@ -46,15 +46,15 @@ public class ToolUtils {
             String ImageUrl=arrayList.get(i).getImageUrl();
             String Bowrse=arrayList.get(i).getBrowse();
             String Content=Url+","+Title+","+ShortContent+","+Time+","+ImageUrl+","+Bowrse;
-            aCache.put(ContentClass.CACHE_NAME+i,Content);
+            aCache.put(ContentClass.CACHE_NAME+TAG+i,Content);
         }
 
     }
-    public static ArrayList<ZaiNanFuLiEntity> getCacheToArrayList(ACache aCache){
+    public static ArrayList<ZaiNanFuLiEntity> getCacheToArrayList(ACache aCache,String TAG){
         ArrayList<ZaiNanFuLiEntity> entities=new ArrayList<>();
         ZaiNanFuLiEntity zaiNanFuLiEntity;
         for (int i = 0; i < ContentClass.PAGE_NUM; i++) {
-            String aCacheString=aCache.getAsString(ContentClass.CACHE_NAME+i);
+            String aCacheString=aCache.getAsString(ContentClass.CACHE_NAME+TAG+i);
             if (!TextUtils.isEmpty(aCacheString)) {
                 String[] Content = aCacheString.split(",");
                 zaiNanFuLiEntity = new ZaiNanFuLiEntity();

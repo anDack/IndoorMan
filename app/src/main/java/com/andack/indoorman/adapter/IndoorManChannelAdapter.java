@@ -47,12 +47,16 @@ public class IndoorManChannelAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return datas.get(position);
     }
-
+    public void removeAllData(){
+        this.datas.clear();
+    }
     @Override
     public long getItemId(int position) {
         return position;
     }
-
+    public void addAll(ArrayList<ZaiNanFuLiEntity>entities){
+        this.datas.addAll(entities);
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder=null;
