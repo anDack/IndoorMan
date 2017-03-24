@@ -6,7 +6,7 @@
         <item android:id="@+id/nav4zai_nan_cat" android:icon="@drawable/zai_nan_mao"
             android:title="宅男猫"/>
         <item android:id="@+id/nav4fan_hao" android:icon="@drawable/fan_hao"
-            android:title="番号库"/>
+            android:title="番号图库"/>
         <item android:id="@+id/nav4beat_girls" android:icon="@drawable/beat_girls"
             android:title="氢美女"/>
     </group>

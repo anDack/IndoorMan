@@ -1,5 +1,6 @@
 package com.andack.indoorman;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.andack.indoorman.Activity.AuthorActivity;
 import com.andack.indoorman.Fragment.IndoorManCat;
 import com.andack.indoorman.Fragment.ZaiNanFuLiShe;
 
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav4author:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+                Intent intent=new Intent(MainActivity.this, AuthorActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav4exit:
                 drawerLayout.closeDrawer(Gravity.LEFT);

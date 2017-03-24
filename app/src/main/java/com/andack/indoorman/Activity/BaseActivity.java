@@ -13,6 +13,13 @@ import android.view.MenuItem;
  */
 
 public class BaseActivity extends AppCompatActivity {
+    /**
+     * 接下来要做的事情
+     * 1.webView的接入
+     * 2.番号图库爬取
+     * 3.gank妹子展示
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
