@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.andack.indoorman.Activity.AuthorActivity;
+import com.andack.indoorman.Fragment.FanHaoFragment;
 import com.andack.indoorman.Fragment.IndoorManCat;
 import com.andack.indoorman.Fragment.ZaiNanFuLiShe;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentTransaction fragmentTransaction;
     private Toolbar toolbar;
     private ZaiNanFuLiShe zaiNanFuLiSheFragment;
+    private FanHaoFragment fanHaoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav4beat_girls:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+
                 break;
             case R.id.nav4fan_hao:
+                openFanHaoFragment();
                 drawerLayout.closeDrawer(Gravity.LEFT);
                 break;
             case R.id.nav4author:
@@ -90,6 +94,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return true;
+    }
+
+    private void openFanHaoFragment() {
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main, new FanHaoFragment());
+        fragmentTransaction.commit();
     }
 
     private void openIndoorManFragment() {

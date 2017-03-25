@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class IndoorManMovie extends Fragment {
     protected ListView listView;
     private ProgressBar progressBar;
+    private static boolean isFirst=false;
     private SwipeRefreshLayout refreshLayout;
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
@@ -102,6 +103,7 @@ public class IndoorManMovie extends Fragment {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
             L.i("第一次进入没有缓存数据");
+            isFirst=true;
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
@@ -173,6 +175,14 @@ public class IndoorManMovie extends Fragment {
             //第二步清除当前第一页数据
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
+            if (isFirst){
+                removeTitleAndUrl();
+                getTitleAndUrl(entities);
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");

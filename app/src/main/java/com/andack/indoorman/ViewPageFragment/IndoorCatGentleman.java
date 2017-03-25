@@ -17,7 +17,6 @@ import com.andack.indoorman.R;
 import com.andack.indoorman.Utils.ContentClass;
 import com.andack.indoorman.Utils.L;
 import com.andack.indoorman.Utils.NetUils;
-import com.andack.indoorman.Utils.ShareUtil;
 import com.andack.indoorman.Utils.ToolUtils;
 import com.andack.indoorman.adapter.IndoorManChannelAdapter;
 import com.andack.indoorman.entity.ZaiNanFuLiEntity;
@@ -45,6 +44,7 @@ public class IndoorCatGentleman extends Fragment {
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
     private static boolean drop=false;
+    private static boolean isFirst=true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,13 +76,13 @@ public class IndoorCatGentleman extends Fragment {
                     L.i("下拉加载更多，第"+currentPage);
                     thisChannelUrl+="/page/"+currentPage;
                     drop=true;
-                    new getDataTask().execute();
+                        new getDataTask().execute();
                 }
             }
         });
         if (list.equals(temp) ) {
             //如果没有缓存数据
-            ShareUtil.putBool(getContext(),"Channel",true);
+//            ShareUtil.putBool(getContext(),"Channel",true);
             L.i("第一次进入没有缓存数据");
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
@@ -94,8 +94,7 @@ public class IndoorCatGentleman extends Fragment {
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
-            mData.addAll(list);
-            adapter.notifyDataSetChanged();
+            adapter.addAll(list);
 
         }
 
@@ -145,7 +144,12 @@ public class IndoorCatGentleman extends Fragment {
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
             L.i("进入刷新界面");
-
+            if (isFirst){
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");
@@ -158,8 +162,6 @@ public class IndoorCatGentleman extends Fragment {
             }else if (!list.equals(entities) && drop){
                 //对下面的数据不进行缓存
                 adapter.addAll(entities);
-                adapter.notifyDataSetChanged();
-                //ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 drop=false;
             }
 

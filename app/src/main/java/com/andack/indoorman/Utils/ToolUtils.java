@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.andack.indoorman.Cache.ACache;
+import com.andack.indoorman.entity.FanHaoEntity;
 import com.andack.indoorman.entity.ZaiNanFuLiEntity;
 
 import java.util.ArrayList;
@@ -36,6 +37,15 @@ public class ToolUtils {
         return new String(year+month+day+"");
 //        return new String(year+month+day+hour+minute+se+"");
     }
+    public static void setFanHaoToACache(ArrayList<FanHaoEntity> fanHaoEntities,ACache aCache,String TAG){
+        for (int i = 0; i < fanHaoEntities.size(); i++) {
+            String ImageUrl=fanHaoEntities.get(i).getImageUrl();
+            String FanHao=fanHaoEntities.get(i).getFanhao();
+            String Content=FanHao+","+ImageUrl;
+            aCache.put(ContentClass.CACHE_NAME+TAG+i,Content);
+        }
+    }
+
     public static void setArrayListToACache(ArrayList<ZaiNanFuLiEntity> arrayList
             , ACache aCache,String TAG){
         for (int i = 0; i < arrayList.size(); i++) {
@@ -49,6 +59,23 @@ public class ToolUtils {
             aCache.put(ContentClass.CACHE_NAME+TAG+i,Content);
         }
 
+    }
+    public static ArrayList<FanHaoEntity> getFanHaoCacheToArrayList(ACache aCache,String TAG){
+        ArrayList<FanHaoEntity> entities=new ArrayList<>();
+        FanHaoEntity fanHaoEntity;
+        for (int i = 0; i <ContentClass.FANHAO_NUM ; i++) {
+            String aCahceString=aCache.getAsString(ContentClass.CACHE_NAME+TAG+i);
+            if (!TextUtils.isEmpty(aCahceString)){
+                String[] spilt=aCahceString.split(",");
+                fanHaoEntity=new FanHaoEntity();
+                fanHaoEntity.setFanhao(spilt[0]);
+                fanHaoEntity.setImageUrl(spilt[1]);
+                entities.add(fanHaoEntity);
+
+            }
+
+        }
+        return entities;
     }
     public static ArrayList<ZaiNanFuLiEntity> getCacheToArrayList(ACache aCache,String TAG){
         ArrayList<ZaiNanFuLiEntity> entities=new ArrayList<>();

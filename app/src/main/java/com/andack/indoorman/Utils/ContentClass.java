@@ -11,6 +11,7 @@ package com.andack.indoorman.Utils;
 public class ContentClass {
     public static final int SPLASH_HANDLER=1001;
     public static final int SPLASH_TIME=2000;
+    public static final int FANHAO_NUM=30;
     public static final String INDOOR_BASE_URL="http://www.zhainanfulishe.net";
     public static final String INDOOR_CHANNEL_URL=INDOOR_BASE_URL+"/znpd";
     public static final String INDOOR_AVER_URL=INDOOR_BASE_URL+"/nvshen";
@@ -27,11 +28,9 @@ public class ContentClass {
     public static final String CAT_PICTURE_URL=CAT_BASE_URL+"tuku";
     public static final String CAT_GIF_URL=CAT_BASE_URL+"gif";
     public static final String CAT_BORING_URL=CAT_BASE_URL+"wuliao";
-    public static final String[] IndoorManUrls=new String[]{
-        INDOOR_CHANNEL_URL,INDOOR_AVER_URL,INDOOR_ACG_URL,INDOOR_MOVIE_URL,
-            INDOOR_NEWS_URL,INDOOR_SKILL_URL,INDOOR_WIKI_URL
-    };
-
+    public static final int TIME_OUT=3000;
+    public static final String FANHAO_FIRSTPAGE="http://www.fanhaok.com/fanhao/fanhao.html";
+    public static final String FANHAO_BASEURL="http://www.fanhaok.com";
     public static final String CACHE_NAME="IndoorMan";
     public static final int PAGE_NUM=10;
     public static final int HANDLER_INDOORMAN_CHANNEL=1001;

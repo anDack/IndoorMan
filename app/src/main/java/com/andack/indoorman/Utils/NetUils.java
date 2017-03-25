@@ -1,5 +1,6 @@
 package com.andack.indoorman.Utils;
 
+import com.andack.indoorman.entity.FanHaoEntity;
 import com.andack.indoorman.entity.ZaiNanFuLiEntity;
 
 import org.jsoup.Jsoup;
@@ -26,7 +27,6 @@ public class NetUils {
             document = Jsoup.connect(Url).
                     timeout(3000).get();
         Elements elements = document.select("article");
-//        L.i(elements.toString());
         for (Element element : elements) {
             String title = element.select("a").attr("title");
             String url = element.select("a").attr("href");
@@ -46,5 +46,21 @@ public class NetUils {
             }
         }
         return entities;
+    }
+    public static final ArrayList<FanHaoEntity> FanHaoParse(String Url) throws IOException {
+        ArrayList<FanHaoEntity> arrayList=new ArrayList<>();
+        FanHaoEntity fanHaoEntity;
+        Document document= Jsoup.connect(Url).timeout(ContentClass.TIME_OUT).get();
+        Elements elements=document.select("a.link-hover");
+        for (Element element : elements) {
+            fanHaoEntity=new FanHaoEntity();
+            String ImageUrl=element.select("img").attr("data-original");
+            String Code=element.select("img").attr("alt");
+            fanHaoEntity.setFanhao(Code);
+            fanHaoEntity.setImageUrl(ImageUrl);
+            arrayList.add(fanHaoEntity);
+
+        }
+        return arrayList;
     }
 }

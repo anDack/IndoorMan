@@ -47,6 +47,7 @@ public class IndoorManChannel extends Fragment {
     private ArrayList<String> mUrls;
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
+    private static boolean isFirst=false;
     private static boolean drop=false;
     /**
      * 下拉加载更多的方法是，先判断当前ListView的位置，
@@ -103,6 +104,7 @@ public class IndoorManChannel extends Fragment {
         if (list.equals(temp) ) {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
+            isFirst=true;
             L.i("第一次进入没有缓存数据");
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
@@ -175,14 +177,22 @@ public class IndoorManChannel extends Fragment {
            //第二步清除当前第一页数据
            //第三部将新的数据重新加入ListView
            //第四步重新缓存
+           if (isFirst){
+               removeTitleAndUrl();
+               getTitleAndUrl(entities);
+               adapter.addAll(entities);
+               adapter.notifyDataSetChanged();
+               ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+               isFirst=false;
+           }
            if (!list.equals(entities)&& pull) {
 
                L.i("数据不同上拉");
                list.clear();
                adapter.removeAllData();
                removeTitleAndUrl();
-               adapter.addAll(entities);
                getTitleAndUrl(entities);
+               adapter.addAll(entities);
                adapter.notifyDataSetChanged();
                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                pull=false;

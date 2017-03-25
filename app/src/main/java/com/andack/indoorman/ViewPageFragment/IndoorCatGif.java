@@ -45,6 +45,7 @@ public class IndoorCatGif extends Fragment {
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
     private static boolean drop=false;
+    private static boolean isFirst=true;
 
     @Nullable
     @Override
@@ -146,7 +147,12 @@ public class IndoorCatGif extends Fragment {
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
             L.i("进入刷新界面");
-
+            if (isFirst){
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");

@@ -40,6 +40,7 @@ public class WebActivity extends BaseActivity {
         //接口回调
         webView.setWebChromeClient(new WebViewClient());
         webView.loadUrl(url);
+        webView.getSettings().setUserAgentString("电脑");
         //本地显示
         webView.setWebViewClient(new android.webkit.WebViewClient(){
             @Override

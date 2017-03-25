@@ -46,6 +46,7 @@ public class IndoorManWiki extends Fragment {
     private ArrayList<String> mTitles;
     private ArrayList<String> mUrls;
     private static int currentPage=1;
+    private static boolean isFirst=false;
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
     private static boolean drop=false;
@@ -99,6 +100,7 @@ public class IndoorManWiki extends Fragment {
         if (list.equals(temp) ) {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
+            isFirst=true;
             L.i("第一次进入没有缓存数据");
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
@@ -171,6 +173,14 @@ public class IndoorManWiki extends Fragment {
             //第二步清除当前第一页数据
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
+            if (isFirst){
+                removeTitleAndUrl();
+                getTitleAndUrl(entities);
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");

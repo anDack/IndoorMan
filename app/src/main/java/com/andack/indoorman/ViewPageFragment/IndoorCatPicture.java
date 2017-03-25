@@ -40,6 +40,7 @@ public class IndoorCatPicture extends Fragment {
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
     private ACache aCache;
+    private static boolean isFirst=true;
     private static String thisChannelUrl= ContentClass.CAT_PICTURE_URL;
     private static int currentPage=1;
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
@@ -145,7 +146,13 @@ public class IndoorCatPicture extends Fragment {
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
             L.i("进入刷新界面");
+            if (isFirst){
 
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");

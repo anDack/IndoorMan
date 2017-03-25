@@ -1,5 +1,6 @@
 package com.andack.indoorman.ViewPageFragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.andack.indoorman.Activity.WebActivity;
 import com.andack.indoorman.Cache.ACache;
 import com.andack.indoorman.R;
 import com.andack.indoorman.Utils.ContentClass;
@@ -39,6 +42,8 @@ public class IndoorManACG extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
+    private ArrayList<String> mTitles;
+    private ArrayList<String> mUrls;
     private ACache aCache;
     private static int currentPage=1;
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
@@ -50,6 +55,8 @@ public class IndoorManACG extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.indoor_acg_zainanfulishe,container,false);
         mData=new ArrayList<>();
+        mTitles=new ArrayList<>();
+        mUrls=new ArrayList<>();
         initView(view);
 //        initData();
         return view;
@@ -81,6 +88,15 @@ public class IndoorManACG extends Fragment {
                 }
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(getContext(), WebActivity.class);
+                intent.putExtra("title",mTitles.get(position));
+                intent.putExtra("url",mUrls.get(position));
+                startActivity(intent);
+            }
+        });
         if (list.equals(temp) ) {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
@@ -96,6 +112,8 @@ public class IndoorManACG extends Fragment {
             refreshLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
             mData.addAll(list);
+            getTitleAndUrl(list);
+
             adapter.notifyDataSetChanged();
 
         }
@@ -117,6 +135,15 @@ public class IndoorManACG extends Fragment {
             }
         });
     }
+
+    private void getTitleAndUrl(ArrayList<ZaiNanFuLiEntity> list) {
+        for (int i = 0; i < list.size(); i++) {
+            //获取标题和Url
+            mUrls.add(list.get(i).getUrl());
+            mTitles.add(list.get(i).getTitle());
+        }
+    }
+
     class getDataTask extends AsyncTask<Void,Void,ArrayList<ZaiNanFuLiEntity>>{
 
         @Override
@@ -125,7 +152,7 @@ public class IndoorManACG extends Fragment {
                 L.i(thisChannelUrl);
                 mData= NetUils.JsoupParse(thisChannelUrl);
                 thisChannelUrl=ContentClass.INDOOR_ACG_URL;
-                L.i("请求异常");
+//                L.i("请求异常");
             } catch (IOException e) {
 //               Toast.makeText(getActivity(), "网络请求异常！", Toast.LENGTH_SHORT).show();
                 L.i("请求异常");
@@ -145,26 +172,30 @@ public class IndoorManACG extends Fragment {
             //第二步清除当前第一页数据
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
-            L.i("进入刷新界面");
-
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");
                 list.clear();
                 adapter.removeAllData();
+                removeTitleAndUrl();
                 adapter.addAll(entities);
+                getTitleAndUrl(entities);
                 adapter.notifyDataSetChanged();
                 ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 pull=false;
             }else if (!list.equals(entities) && drop){
                 //对下面的数据不进行缓存
                 adapter.addAll(entities);
+                getTitleAndUrl(entities);
                 adapter.notifyDataSetChanged();
                 //ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 drop=false;
             }
 
-
         }
+    }
+    private void removeTitleAndUrl() {
+        mTitles.clear();
+        mUrls.clear();
     }
 }
