@@ -50,7 +50,7 @@ public class IndoorManGodGirls extends Fragment {
     private static boolean drop=false;
     private ArrayList<String> mTitles;
     private ArrayList<String> mUrls;
-    private static boolean isFirst=true;
+    private static boolean isFirst=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -118,7 +118,6 @@ public class IndoorManChannel extends Fragment {
             listView.setVisibility(View.VISIBLE);
             mData.addAll(list);
             getTitleAndUrl(list);
-
             adapter.notifyDataSetChanged();
 
         }

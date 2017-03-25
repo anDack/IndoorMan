@@ -38,7 +38,6 @@ public class IndoorCatBoring extends Fragment {
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
     private ACache aCache;
-    private static boolean isFirst=true;
     private static String thisChannelUrl= ContentClass.CAT_BORING_URL;
     @Nullable
     @Override

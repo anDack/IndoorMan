@@ -45,6 +45,7 @@ public class IndoorManACG extends Fragment {
     private ArrayList<String> mTitles;
     private ArrayList<String> mUrls;
     private ACache aCache;
+    private static boolean isFirst=false;
     private static int currentPage=1;
     private static int currentItemNum=ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
@@ -100,6 +101,7 @@ public class IndoorManACG extends Fragment {
         if (list.equals(temp) ) {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
+            isFirst=true;
             L.i("第一次进入没有缓存数据");
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
@@ -113,7 +115,6 @@ public class IndoorManACG extends Fragment {
             listView.setVisibility(View.VISIBLE);
             mData.addAll(list);
             getTitleAndUrl(list);
-
             adapter.notifyDataSetChanged();
 
         }
@@ -151,8 +152,8 @@ public class IndoorManACG extends Fragment {
             try {
                 L.i(thisChannelUrl);
                 mData= NetUils.JsoupParse(thisChannelUrl);
-                thisChannelUrl=ContentClass.INDOOR_ACG_URL;
-//                L.i("请求异常");
+                thisChannelUrl=ContentClass.INDOOR_CHANNEL_URL;
+                L.i("请求异常");
             } catch (IOException e) {
 //               Toast.makeText(getActivity(), "网络请求异常！", Toast.LENGTH_SHORT).show();
                 L.i("请求异常");
@@ -172,14 +173,22 @@ public class IndoorManACG extends Fragment {
             //第二步清除当前第一页数据
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
+            if (isFirst){
+                removeTitleAndUrl();
+                getTitleAndUrl(entities);
+                adapter.addAll(entities);
+                adapter.notifyDataSetChanged();
+                ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
+                isFirst=false;
+            }
             if (!list.equals(entities)&& pull) {
 
                 L.i("数据不同上拉");
                 list.clear();
                 adapter.removeAllData();
                 removeTitleAndUrl();
-                adapter.addAll(entities);
                 getTitleAndUrl(entities);
+                adapter.addAll(entities);
                 adapter.notifyDataSetChanged();
                 ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 pull=false;
@@ -191,9 +200,34 @@ public class IndoorManACG extends Fragment {
                 //ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 drop=false;
             }
+//           if (list.equals(null))
+//           {
+//               L.i("缓存数据不存在");
+//               ToolUtils.setArrayListToACache(entities,aCache);
+//               adapter.addAll(entities);
+//               adapter.notifyDataSetChanged();
+//
+//           }else {
+//               L.i("缓存数据存在");
+//               adapter.addAll(list);
+//               if (!list.equals(entities)){
+//                   adapter.addAll(entities);
+//                   adapter.notifyDataSetChanged();
+//               }
+//
+//           }
+//           adapter.addAll(entities);
+//           adapter.notifyDataSetChanged();
+//           progressBar.setVisibility(View.GONE);
+//           refreshLayout.setVisibility(View.VISIBLE);
+//           listView.setVisibility(View.VISIBLE);
 
         }
     }
+
+    /**清除不同位置Url和Title
+     *
+     */
     private void removeTitleAndUrl() {
         mTitles.clear();
         mUrls.clear();

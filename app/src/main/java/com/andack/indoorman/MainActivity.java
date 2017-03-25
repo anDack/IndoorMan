@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav4exit:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+                finish();
                 break;
         }
         return true;

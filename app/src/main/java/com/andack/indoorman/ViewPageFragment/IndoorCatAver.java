@@ -43,7 +43,7 @@ public class IndoorCatAver extends Fragment {
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
     private ACache aCache;
-    private static boolean isFirst=true;
+    private static boolean isFirst=false;
 
     private static String thisChannelUrl= ContentClass.CAT_AVER_URL;
     private static int currentPage=1;
@@ -102,6 +102,7 @@ public class IndoorCatAver extends Fragment {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
             L.i("第一次进入没有缓存数据");
+            isFirst=true;
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
@@ -174,6 +175,8 @@ public class IndoorCatAver extends Fragment {
             //第三部将新的数据重新加入ListView
             //第四步重新缓存
             if (isFirst){
+                removeTitleAndUrl();
+                getTitleAndUrl(entities);
                 adapter.addAll(entities);
                 adapter.notifyDataSetChanged();
                 ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
