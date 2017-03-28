@@ -35,13 +35,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
-* 项目名称：IndoorMan
-* 项目作者：anDack
-* 项目时间：2017/3/21
-* 邮箱：    1160083806@qq.com
-* 描述：    缓存类，这里利用ACache缓存框架
-*/
+
 
 
 public class ACache {

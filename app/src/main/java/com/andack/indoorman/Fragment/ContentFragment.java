@@ -1,4 +1,4 @@
-package com.andack.indoorman.ViewPageFragment;
+package com.andack.indoorman.Fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,35 +31,104 @@ import java.util.ArrayList;
 /**
  * 项目名称：IndoorMan
  * 项目作者：anDack
- * 项目时间：2017/3/19
+ * 项目时间：2017/3/28
  * 邮箱：    1160083806@qq.com
- * 描述：    绅士学院的fragment
+ * 描述：    TODO
  */
 
-public class IndoorCatGif extends Fragment {
-    protected ListView listView;
+public class ContentFragment extends Fragment {
+
+    private static final String PACKAGE="com.me";
+    private String mFragmmentName;
+    private String thisChannelUrl=ContentClass.INDOOR_CHANNEL_URL;
+
+    private ListView listView;
     private ProgressBar progressBar;
-    private SwipeRefreshLayout refreshLayout;
     private ArrayList<ZaiNanFuLiEntity> mData;
     private IndoorManChannelAdapter adapter;
-    private ACache aCache;
+    private SwipeRefreshLayout refreshLayout;
+    private static int currentPage=1;
     private ArrayList<String> mTitles;
     private ArrayList<String> mUrls;
-    private static String thisChannelUrl= ContentClass.CAT_GIF_URL;
-    private static int currentPage=1;
-    private static int currentItemNum=ContentClass.PAGE_NUM-3;
+    private static int currentItemNum= ContentClass.PAGE_NUM-3;
     private static boolean pull=false;
-    private static boolean drop=false;
     private static boolean isFirst=false;
+    private static boolean drop=false;
 
-    @Nullable
+
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle=getArguments();
+        //这里获得Fragment的具体是什么内容
+        mFragmmentName=bundle.getString(PACKAGE);
+        getThisChannelUrl(mFragmmentName);
+    }
+
+    /**
+     * 对当前的URL赋值
+     * @param mFragmmentName    当前Fragment的名字
+     */
+    private void getThisChannelUrl(String mFragmmentName) {
+        switch (mFragmmentName) {
+            case "频道":
+                thisChannelUrl=ContentClass.INDOOR_CHANNEL_URL;
+                break;
+            case "女神":
+                thisChannelUrl=ContentClass.INDOOR_AVER_URL;
+                break;
+            case "电影":
+                thisChannelUrl=ContentClass.INDOOR_MOVIE_URL;
+                break;
+            case "技术宅":
+                thisChannelUrl=ContentClass.INDOOR_SKILL_URL;
+                break;
+            case "资讯":
+                thisChannelUrl=ContentClass.INDOOR_NEWS_URL;
+                break;
+            case "ACG":
+                thisChannelUrl=ContentClass.INDOOR_ACG_URL;
+                break;
+            case "百科":
+                thisChannelUrl=ContentClass.INDOOR_WIKI_URL;
+                break;
+            case "绅士学院":
+                thisChannelUrl=ContentClass.CAT_GENTLEMAN_URL;
+                break;
+            case "日本女忧":
+                thisChannelUrl=ContentClass.CAT_AVER_URL;
+                break;
+            case "宅男福利":
+                thisChannelUrl=ContentClass.CAT_WELARE_URL;
+                break;
+            case "宅男女神":
+                thisChannelUrl=ContentClass.CAT_GODGirLS_URL;
+                break;
+            case "宅男图库":
+                thisChannelUrl=ContentClass.CAT_PICTURE_URL;
+                break;
+            case "GIF福利":
+                thisChannelUrl=ContentClass.CAT_GIF_URL;
+                break;
+
+        }
+    }
+
+    public static ContentFragment newInstance(String mCategoryName){
+        ContentFragment contentFragment=new ContentFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString(PACKAGE,mCategoryName);
+        contentFragment.setArguments(bundle);
+        return contentFragment;
+    }
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.cat_gif_fragment,container,false);
+        View view=inflater.inflate(R.layout.indoor_channel_zainanfulishe,container,false);
         mData=new ArrayList<>();
         mTitles=new ArrayList<>();
         mUrls=new ArrayList<>();
         initView(view);
+//        initData();
         return view;
     }
     private void initView(View view) {
@@ -83,9 +152,9 @@ public class IndoorCatGif extends Fragment {
                     currentPage++;
                     currentItemNum+=10;
                     L.i("下拉加载更多，第"+currentPage);
-                    thisChannelUrl+="/page/"+currentPage;
+//                    thisChannelUrl+="/page/"+currentPage;
                     drop=true;
-                    new getDataTask().execute();
+                    new getDataTask().execute(String.valueOf(currentPage));
                 }
             }
         });
@@ -94,19 +163,21 @@ public class IndoorCatGif extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getContext(), WebActivity.class);
                 intent.putExtra("title",mTitles.get(position));
+
                 intent.putExtra("url",mUrls.get(position));
+                L.i("title:"+mTitles.get(position)+"url:"+mUrls.get(position));
                 startActivity(intent);
             }
         });
         if (list.equals(temp) ) {
             //如果没有缓存数据
             ShareUtil.putBool(getContext(),"Channel",true);
-            isFirst=true;
             L.i("第一次进入没有缓存数据");
+            isFirst=true;
             progressBar.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
-            new getDataTask().execute();
+            new getDataTask().execute(String.valueOf(0));
         }else {
             //如果有缓冲数据
             L.i("有缓存数据");
@@ -132,7 +203,7 @@ public class IndoorCatGif extends Fragment {
                 currentItemNum=ContentClass.PAGE_NUM-3;
                 currentPage=1;
                 pull=true;
-                new getDataTask().execute();
+                new getDataTask().execute(String.valueOf(0));
                 refreshLayout.setRefreshing(false);
             }
         });
@@ -146,17 +217,20 @@ public class IndoorCatGif extends Fragment {
         }
     }
 
-    class getDataTask extends AsyncTask<Void,Void,ArrayList<ZaiNanFuLiEntity>>{
+    class getDataTask extends AsyncTask<String,Void,ArrayList<ZaiNanFuLiEntity>> {
 
         @Override
-        protected ArrayList<ZaiNanFuLiEntity> doInBackground(Void... params) {
+        protected ArrayList<ZaiNanFuLiEntity> doInBackground(String... params) {
             try {
-                L.i(thisChannelUrl);
-                mData= NetUils.JsoupParse(thisChannelUrl);
-                thisChannelUrl=ContentClass.CAT_GIF_URL;
-                L.i("请求异常");
+
+                String Page=params[0];
+                String currentUrl=thisChannelUrl;
+                L.i("currentUrl:"+currentUrl);
+                if (!Page.equals("0")) {
+                    currentUrl = thisChannelUrl + "/page/" + Page;
+                }
+                mData= NetUils.JsoupParse(currentUrl);
             } catch (IOException e) {
-//               Toast.makeText(getActivity(), "网络请求异常！", Toast.LENGTH_SHORT).show();
                 L.i("请求异常");
             }
             return mData;
@@ -198,31 +272,8 @@ public class IndoorCatGif extends Fragment {
                 adapter.addAll(entities);
                 getTitleAndUrl(entities);
                 adapter.notifyDataSetChanged();
-                //ToolUtils.setArrayListToACache(entities,aCache,thisChannelUrl);
                 drop=false;
             }
-//           if (list.equals(null))
-//           {
-//               L.i("缓存数据不存在");
-//               ToolUtils.setArrayListToACache(entities,aCache);
-//               adapter.addAll(entities);
-//               adapter.notifyDataSetChanged();
-//
-//           }else {
-//               L.i("缓存数据存在");
-//               adapter.addAll(list);
-//               if (!list.equals(entities)){
-//                   adapter.addAll(entities);
-//                   adapter.notifyDataSetChanged();
-//               }
-//
-//           }
-//           adapter.addAll(entities);
-//           adapter.notifyDataSetChanged();
-//           progressBar.setVisibility(View.GONE);
-//           refreshLayout.setVisibility(View.VISIBLE);
-//           listView.setVisibility(View.VISIBLE);
-
         }
     }
 

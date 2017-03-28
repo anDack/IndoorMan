@@ -11,13 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andack.indoorman.R;
-import com.andack.indoorman.ViewPageFragment.IndoorCatAver;
-import com.andack.indoorman.ViewPageFragment.IndoorCatBoring;
-import com.andack.indoorman.ViewPageFragment.IndoorCatGentleman;
-import com.andack.indoorman.ViewPageFragment.IndoorCatGif;
-import com.andack.indoorman.ViewPageFragment.IndoorCatGodGirl;
-import com.andack.indoorman.ViewPageFragment.IndoorCatPicture;
-import com.andack.indoorman.ViewPageFragment.IndoorCatWelfare;
 
 import java.util.ArrayList;
 
@@ -34,6 +27,9 @@ public class IndoorManCat extends Fragment {
     private ViewPager mViewPager;
     private ArrayList<String> titles;
     private ArrayList<Fragment> fragments;
+    private String[] categoryName=new String[]{
+            "绅士学院","日本女忧","宅男福利","宅男女神","宅男图库","GIF福利"
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,20 +65,11 @@ public class IndoorManCat extends Fragment {
     private void initData() {
         titles=new ArrayList<>();
         fragments=new ArrayList<>();
-        titles.add("绅士学院");     //gentleman
-        titles.add("日本女忧");     //AVer
-        titles.add("宅男福利");     //welfare
-        titles.add("宅男女神");     //godGirls
-        titles.add("宅男图库");     //picture
-        titles.add("GIF福利");      //GIF
-        titles.add("不许无聊");     //Boring
-        fragments.add(new IndoorCatGentleman());
-        fragments.add(new IndoorCatAver());
-        fragments.add(new IndoorCatWelfare());
-        fragments.add(new IndoorCatGodGirl());
-        fragments.add(new IndoorCatPicture());
-        fragments.add(new IndoorCatGif());
-        fragments.add(new IndoorCatBoring());
+        for (int i = 0; i < categoryName.length; i++) {
+            fragments.add(ContentFragment.newInstance(categoryName[i]));
+            titles.add(categoryName[i]);
+        }
+
     }
 
 
